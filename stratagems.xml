@@ -1,0 +1,14 @@
+<stratagems>
+    <square value="1">
+        <title>Square 1</title>
+        <content>This is the content of square 1.</content>
+    </square>
+    <square value="2">
+        <title>Square 2</title>
+        <content>This is the content of square 2.</content>
+    </square>
+    <square value="1">
+        <title>Square 3</title>
+        <content>This is the content of square 3.</content>
+    </square>
+</stratagems>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        var xmlFileURL = "stratagems.xml";
+        var counter = 0;
+
+        // Function to update the counter and display it
+        function updateCounter() {
+            document.getElementById('counter').innerHTML = counter;
+        }
+
+        // Function to handle incrementing the counter
+        function incrementCounter() {
+            counter++;
+            updateCounter();
+        }
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", xmlFileURL, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var xmlData = xhr.responseXML;
+                if (xmlData) {
+                    var squares = xmlData.getElementsByTagName("square");
+                    var squaresContainer = document.getElementById('squares-container');
+
+                    for (var i = 0; i < squares.length; i++) {
+                        var square = squares[i];
+                        var title = square.getElementsByTagName("title")[0].textContent;
+                        var content = square.getElementsByTagName("content")[0].textContent;
+                        var value = parseInt(square.getAttribute("value"));
+
+                        var squareDiv = document.createElement('div');
+                        squareDiv.className = 'square';
+                        squareDiv.innerHTML = `<h2>${title}</h2><p>${content}</p>`;
+                        squareDiv.setAttribute("data-value", value);
+                        squaresContainer.appendChild(squareDiv);
+
+                        squareDiv.addEventListener("click", function() {
+                            var squareValue = parseInt(this.getAttribute("data-value"));
+                            if (counter - squareValue >= 0) {
+                                counter -= squareValue; // Decrement the counter
+                                updateCounter(); // Update the counter display
+                            }
+                        });
+                    }
+
+                    // Initialize the counter display after squares are loaded
+                    updateCounter();
+                }
+            }
+        };
+        xhr.send();
+    </script>
+    <style>
+        .square {
+            border: 1px solid #000;
+            margin: 10px;
+            padding: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div>
+    Counter: <span id="counter">0</span>
+    <button onclick="incrementCounter()">Increment</button>
+</div>
+<div id="squares-container">
+    <!-- Squares will be generated here once data is fetched -->
+</div>
+</body>
+</html>
