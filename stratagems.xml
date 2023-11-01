@@ -11,4 +11,82 @@
         <title>Square 3</title>
         <content>This is the content of square 3.</content>
     </square>
+
+  <square value="1">
+    <title>Unquestioning Loyalty</title>
+    <cost>1</cost>
+    <faction>Genestealer Cults</faction>
+    <detachment>Ascension Day</detachment>
+    <timing>Your opponent’s SHOOTING PHASE or the FIGHT PHASE, just after an enemy unit has selected its targets.</timing>
+    <target>One GENESTEALER CULTS CHARACTER unit from your army that was selected as the target of one or more of that enemy unit’s attacks.</target>
+    <restriction>none</restriction>
+    <effect>Until the end of the phase, each time a Character model in your unit would lose a wound, select one friendly GENESTEALER CULTS unit within 3 of it (excluding Vehicle units). Your Character model does not lose that wound and that selected unit suffers one mortal wound instead.</effect>
+  </square>
+
+  <!-- Add the rest of the stratagems below following the same format -->
+  
+  <!-- Coordinated Trap -->
+  <square value="2">
+    <title>Coordinated Trap</title>
+    <cost>2</cost>
+    <faction>Genestealer Cults</faction>
+    <detachment>Ascension Day</detachment>
+    <timing>The start of your SHOOTING PHASE or the start of the FIGHT PHASE.</timing>
+    <target>Two GENESTEALER CULTS units from your army that have not been selected to shoot or fight this phase, and one enemy unit.</target>
+    <restriction>none</restriction>
+    <effect>Until the end of the phase, each time a model in either of your units makes an attack, it can only target that enemy unit (and only if it is an eligible target for that attack), and when resolving that attack, add 1 to the Wound roll.</effect>
+  </square>
+
+  <!-- Tunnel Crawlers -->
+  <square value="1">
+    <title>Tunnel Crawlers</title>
+    <cost>1</cost>
+    <faction>Genestealer Cults</faction>
+    <detachment>Ascension Day</detachment>
+    <timing>Your MOVEMENT PHASE.</timing>
+    <target>One GENESTEALER CULTS unit from your army that is arriving using the DEEP STRIKE ability this phase.</target>
+    <restriction>A unit targeted by this stratagem is not eligible to declare a charge in the same turn.</restriction>
+    <effect>Your unit can be set up anywhere on the battlefield that is more than 3 horizontally away from all enemy models.</effect>
+  </square>
+
+  <!-- One With The Darkness -->
+  <square value="1">
+    <title>One With The Darkness</title>
+    <cost>1</cost>
+    <faction>Genestealer Cults</faction>
+    <detachment>Ascension Day</detachment>
+    <timing>Your opponent’s SHOOTING PHASE, just after an enemy unit has selected its targets.</timing>
+    <target>One GENESTEALER CULTS INFANTRY unit from your army that was selected as the target of one or more of that enemy unit's attacks.</target>
+    <restriction>none</restriction>
+    <effect>Until the end of the phase, your unit has the STEALTH ability and can only be selected as the target of a ranged attack if the attacking model is within 12 inches.</effect>
+  </square>
+
+  <!-- A Perfect Ambush -->
+  <square value="1">
+    <title>A Perfect Ambush</title>
+    <cost>1</cost>
+    <faction>Genestealer Cults</faction>
+    <detachment>Ascension Day</detachment>
+    <timing>Your SHOOTING PHASE.</timing>
+    <target>One GENESTEALER CULTS unit from your army that arrived from RESERVES this turn and has not been selected to shoot this phase.</target>
+    <restriction>none</restriction>
+    <effect>Until the end of the phase, improve the BS and AP characteristics of ranged weapons equipped by models in your unit by 1.</effect>
+  </square>
+
+  <!-- Return To The Shadows -->
+  <square value="1">
+    <title>Return To The Shadows</title>
+    <cost>1</cost>
+    <faction>Genestealer Cults</faction>
+    <detachment>Ascension Day</detachment>
+    <timing>End of your opponent's turn.</timing>
+    <target>Up to two GENESTEALER CULTS BATTLELINE units from your army, or one other GENESTEALER CULTS INFANTRY unit from your army.</target>
+    <restriction>The targeted units must have the Deep Strike ability and cannot be within Engagement Range of any enemy units when targeted.</restriction>
+    <effect>Remove the targeted units from the battlefield and place them into strategic reserves.</effect>
+  </square>
+
+  <!-- Continue adding the remaining stratagems -->
+
+</stratagems>
+
 </stratagems>
