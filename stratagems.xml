@@ -16,13 +16,13 @@
   <square value="1">
     <title>Unquestioning Loyalty</title>
       <content>
-          <cost>1</cost>
-    <faction>Genestealer Cults</faction>
-    <detachment>Ascension Day</detachment>
-    <timing>Your opponent’s SHOOTING PHASE or the FIGHT PHASE, just after an enemy unit has selected its targets.</timing>
-    <target>One GENESTEALER CULTS CHARACTER unit from your army that was selected as the target of one or more of that enemy unit’s attacks.</target>
-    <restriction>none</restriction>
-    <effect>Until the end of the phase, each time a Character model in your unit would lose a wound, select one friendly GENESTEALER CULTS unit within 3 of it (excluding Vehicle units). Your Character model does not lose that wound and that selected unit suffers one mortal wound instead.</effect>
+          Cost: 1CP
+          Faction: Genestealer Cults
+          Detachment: Ascension Day
+          WHEN: Your opponent’s SHOOTING PHASE or the FIGHT PHASE, just after an enemy unit has selected its targets.
+          TARGET: One GENESTEALER CULTS CHARACTER unit from your army that was selected as the target of one or more of that enemy unit’s attacks.
+          RESTRICTION: none
+          EFFECT: Until the end of the phase, each time a Character model in your unit would lose a wound, select one friendly GENESTEALER CULTS unit within 3 of it (excluding Vehicle units). Your Character model does not lose that wound and that selected unit suffers one mortal wound instead.
       </content>
   </square>
   <!-- Coordinated Trap -->
