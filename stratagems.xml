@@ -1,30 +1,69 @@
 <stratagems>
     <square value="1">
-        <title>Square 1</title>
-        <content>This is the content of square 1.</content>
+        <title>Command Reroll</title>
+        <content>
+            Cost: 1CP
+            Faction: Core
+            Detachment: null
+            WHEN: In any phase, just after you have made a HIT ROLL, WOUND ROLL, DAMAGE ROLL, SAVING THROW, ADVANCE ROLL, CHARGE ROLL, DESPERATE ESCAPE TEST, HAZARDOUS TEST, or NUMBER OF ATTACKS ROLL
+            TARGET: null
+            RESTRICTION: none
+            EFFECT: You re-roll that ROLL, TEST, or SAVE.
+        </content>
     </square>
-    
+    <!-- Counter-Offensive -->
     <square value="2">
-        <title>Square 2</title>
-        <content>This is the content of square 2.</content>
+        <title>Counter-Offensive</title>
+        <content>
+            Cost: 2CP
+            Faction: Core
+            Detachment: null
+            WHEN: FIGHT PHASE, just after an ENEMY UNIT has fought
+            TARGET: One UNIT from your army that is within Engagement Range of one or more enemy units and that has not already been selected to fight this phase.
+            RESTRICTION: none
+            EFFECT: Your unit fights next.
+        </content>
     </square>
-    
+    <!-- Epic Challenge -->
     <square value="1">
-        <title>Square 3</title>
-        <content>This is the content of square 3.</content>
+        <title>Epic Challenge</title>
+        <content>
+            Cost: 1CP
+            Faction: Core
+            Detachment: null
+            WHEN: FIGHT PHASE, when a CHARACTER unit from your army that is within Engagement Range of one or more attached units is selected to fight.
+            TARGET: One CHARACTER model in your unit.
+            RESTRICTION: none
+            EFFECT: Until the end of the phase, all melee attacks made by that model have the PRECISION ability.
+        </content>
     </square>
-  <square value="1">
-    <title>Unquestioning Loyalty</title>
-      <content>
-          Cost: 1CP
-          Faction: Genestealer Cults
-          Detachment: Ascension Day
-          WHEN: Your opponent’s SHOOTING PHASE or the FIGHT PHASE, just after an enemy unit has selected its targets.
-          TARGET: One GENESTEALER CULTS CHARACTER unit from your army that was selected as the target of one or more of that enemy unit’s attacks.
-          RESTRICTION: none
-          EFFECT: Until the end of the phase, each time a Character model in your unit would lose a wound, select one friendly GENESTEALER CULTS unit within 3 of it (excluding Vehicle units). Your Character model does not lose that wound and that selected unit suffers one mortal wound instead.
-      </content>
-  </square>
+    <!-- Insane Bravery -->
+    <square value="1">
+        <title>Insane Bravery</title>
+        <content>
+            Cost: 1CP
+            Faction: Core
+            Detachment: null
+            WHEN: BATTLE-SHOCK step of your COMMAND PHASE, just after you have failed a BATTLE-SHOCK TEST taken for a unit from your army.
+            TARGET: The unit from your army that the BATTLE-SHOCK test was just taken for.
+            RESTRICTION: none
+            EFFECT: Your unit is treated as having passed that test instead, and is not BATTLE-SHOCKED as a result.
+        </content>
+    </square>
+    <!-- Grenade -->
+    <square value="1">
+        <title>Grenade</title>
+        <content>
+            Cost: 1CP
+            Faction: Core
+            Detachment: null
+            WHEN: Your SHOOTING PHASE.
+            TARGET: One GRENADES unit from your army that is not within engagement range of any enemy units and has not been selected to shoot this phase.
+            RESTRICTION: none
+            EFFECT: Select one enemy unit that is not within Engagement range of any units from your army and is within 8 inches of and visible to your GRENADES unit. Roll six D6: for each 4+, that enemy unit suffers 1 MW.
+        </content>
+    </square>
+</stratagems>
   <!-- Coordinated Trap -->
   <!-- <square value="2">
     <title>Coordinated Trap</title>
@@ -81,4 +120,3 @@
     <effect>Remove the targeted units from the battlefield and place them into strategic reserves.</effect>
   </square>
 -->
-</stratagems>
