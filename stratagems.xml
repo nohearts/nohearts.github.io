@@ -1,171 +1,254 @@
 <stratagems>
+
     <square value="1">
         <title>Command Reroll</title>
         <content>
-            Cost: 1CP
-            Faction: Core
-            Detachment: null
-            WHEN: In any phase, just after you have made a HIT ROLL, WOUND ROLL, DAMAGE ROLL, SAVING THROW, ADVANCE
+            <span class="red-text">COST:</span>
+            1CP
+            <span class="red-text">FACTION:</span>
+            Core
+            <span class="red-text">DETACHMENT:</span>
+            null
+            <span class="red-text">WHEN:</span>
+            In any phase, just after you have made a HIT ROLL, WOUND ROLL, DAMAGE ROLL, SAVING THROW, ADVANCE
             ROLL, CHARGE ROLL, DESPERATE ESCAPE TEST, HAZARDOUS TEST, or NUMBER OF ATTACKS ROLL
-            TARGET: null
-            RESTRICTION: none
-            EFFECT: You re-roll that ROLL, TEST, or SAVE.
+            <span class="red-text">TARGET:</span>
+            null
+            <span class="red-text">RESTRICTION:</span>
+            none
+            <span class="red-text">EFFECT:</span>
+            You re-roll that ROLL, TEST, or SAVE.
         </content>
     </square>
+
     <!-- Counter-Offensive -->
     <square value="2">
         <title>Counter-Offensive</title>
         <content>
-            Cost: 2CP
-            Faction: Core
-            Detachment: null
-            WHEN: FIGHT PHASE, just after an ENEMY UNIT has fought
-            TARGET: One UNIT from your army that is within Engagement Range of one or more enemy units and that has not
-            already been selected to fight this phase.
-            RESTRICTION: none
-            EFFECT: Your unit fights next.
+            <span class="red-text">Cost:</span>
+            2CP
+            <span class="red-text">Faction:</span>
+            Core
+            <span class="red-text">Detachment:</span>
+            null
+            <span class="red-text">WHEN:</span>
+            FIGHT PHASE, just after an ENEMY UNIT has fought
+            <span class="red-text">TARGET:</span>
+            One UNIT from your army that is within Engagement Range of one or more enemy units and that has not already
+            been selected to fight this phase.
+            <span class="red-text">RESTRICTION:</span>
+            none
+            <span class="red-text">EFFECT:</span>
+            Your unit fights next.
         </content>
     </square>
+
     <!-- Epic Challenge -->
     <square value="1">
         <title>Epic Challenge</title>
         <content>
-            Cost: 1CP
-            Faction: Core
-            Detachment: null
-            WHEN: FIGHT PHASE, when a CHARACTER unit from your army that is within Engagement Range of one or more
-            attached units is selected to fight.
-            TARGET: One CHARACTER model in your unit.
-            RESTRICTION: none
-            EFFECT: Until the end of the phase, all melee attacks made by that model have the PRECISION ability.
+            <span class="red-text">Cost:</span>
+            1CP
+            <span class="red-text">Faction:</span>
+            Core
+            <span class="red-text">Detachment:</span>
+            null
+            <span class="red-text">WHEN:</span>
+            FIGHT PHASE, when a CHARACTER unit from your army that is within Engagement Range of one or more attached
+            units is selected to fight.
+            <span class="red-text">TARGET:</span>
+            One CHARACTER model in your unit.
+            <span class="red-text">RESTRICTION:</span>
+            none
+            <span class="red-text">EFFECT:</span>
+            Until the end of the phase, all melee attacks made by that model have the PRECISION ability.
         </content>
     </square>
+
     <!-- Insane Bravery -->
     <square value="1">
         <title>Insane Bravery</title>
         <content>
-            Cost: 1CP
-            Faction: Core
-            Detachment: null
-            WHEN: BATTLE-SHOCK step of your COMMAND PHASE, just after you have failed a BATTLE-SHOCK TEST taken for a
-            unit from your army.
-            TARGET: The unit from your army that the BATTLE-SHOCK test was just taken for.
-            RESTRICTION: none
-            EFFECT: Your unit is treated as having passed that test instead, and is not BATTLE-SHOCKED as a result.
+            <span class="red-text">Cost:</span>
+            1CP
+            <span class="red-text">Faction:</span>
+            Core
+            <span class="red-text">Detachment:</span>
+            null
+            <span class="red-text">WHEN:</span>
+            BATTLE-SHOCK step of your COMMAND PHASE, just after you have failed a BATTLE-SHOCK TEST taken for a unit
+            from your army.
+            <span class="red-text">TARGET:</span>
+            The unit from your army that the BATTLE-SHOCK test was just taken for.
+            <span class="red-text">RESTRICTION:</span>
+            none
+            <span class="red-text">EFFECT:</span>
+            Your unit is treated as having passed that test instead, and is not BATTLE-SHOCKED as a result.
         </content>
     </square>
+
     <!-- Grenade -->
     <square value="1">
         <title>Grenade</title>
         <content>
-            Cost: 1CP
-            Faction: Core
-            Detachment: null
-            WHEN: Your SHOOTING PHASE.
-            TARGET: One GRENADES unit from your army that is not within engagement range of any enemy units and has not
-            been selected to shoot this phase.
-            RESTRICTION: none
-            EFFECT: Select one enemy unit that is not within Engagement range of any units from your army and is within
-            8 inches of and visible to your GRENADES unit. Roll six D6: for each 4+, that enemy unit suffers 1 MW.
+            <span class="red-text">Cost:</span>
+            1CP
+            <span class="red-text">Faction:</span>
+            Core
+            <span class="red-text">Detachment:</span>
+            null
+            <span class="red-text">WHEN:</span>
+            Your SHOOTING PHASE.
+            <span class="red-text">TARGET:</span>
+            One GRENADES unit from your army that is not within engagement range of any enemy units and has not been
+            selected to shoot this phase.
+            <span class="red-text">RESTRICTION:</span>
+            none
+            <span class="red-text">EFFECT:</span>
+            Select one enemy unit that is not within Engagement range of any units from your army and is within 8 inches
+            of and visible to your GRENADES unit. Roll six D6: for each 4+, that enemy unit suffers 1 MW.
         </content>
     </square>
+
     <!-- Tank Shock -->
     <square value="1">
         <title>Tank Shock</title>
         <content>
-            Cost: 1CP
-            Faction: Core
-            Detachment: null
-            WHEN: Your CHARGE PHASE.
-            TARGET: One VEHICLE unit from your army
-            RESTRICTION: none
-            EFFECT: : Until the end of the phase, after your unit
-            ends a Charge move, select one enemy unit within
-            Engagement Range of it, then select one melee
-            weapon your unit is equipped with. Roll a number of
-            D6 equal to that weapon’s Strength characteristic.
-            If that Strength characteristic is greater than that
-            enemy unit’s Toughness characteristic, roll two
-            additional D6. For each 5+, that enemy unit suffers 1
-            mortal wound (to a maximum of 6 mortal wounds).
+            <span class="red-text">Cost:</span>
+            1CP
+            <span class="red-text">Faction:</span>
+            Core
+            <span class="red-text">Detachment:</span>
+            null
+            <span class="red-text">WHEN:</span>
+            Your CHARGE PHASE.
+            <span class="red-text">TARGET:</span>
+            One VEHICLE unit from your army
+            <span class="red-text">RESTRICTION:</span>
+            none
+            <span class="red-text">EFFECT:</span>
+            : Until the end of the phase, after your unit ends a Charge move, select one enemy unit within Engagement
+            Range of it, then select one melee weapon your unit is equipped with. Roll a number of D6 equal to that
+            weapon’s Strength characteristic. If that Strength characteristic is greater than that enemy unit’s
+            Toughness characteristic, roll two additional D6. For each 5+, that enemy unit suffers 1 mortal wound (to a
+            maximum of 6 mortal wounds).
         </content>
     </square>
+
     <!-- Rapid Ingress -->
     <square value="1">
-        <title>Tank Shock</title>
+        <title>Rapid Ingress</title>
         <content>
-            Cost: 1CP
-            Faction: Core
-            Detachment: null
-            WHEN: Your CHARGE PHASE.
-            TARGET: One VEHICLE unit from your army
-            RESTRICTION: none
-            EFFECT: : Until the end of the phase, after your unit
-            ends a Charge move, select one enemy unit within
-            Engagement Range of it, then select one melee
-            weapon your unit is equipped with. Roll a number of
-            D6 equal to that weapon’s Strength characteristic.
-            If that Strength characteristic is greater than that
-            enemy unit’s Toughness characteristic, roll two
-            additional D6. For each 5+, that enemy unit suffers 1
-            mortal wound (to a maximum of 6 mortal wounds).
+            <span class="red-text">Cost:</span>
+            1CP
+            <span class="red-text">Faction:</span>
+            Core
+            <span class="red-text">Detachment:</span>
+            null
+            <span class="red-text">WHEN:</span>
+            End of your opponent’s MOVEMENT phase
+            <span class="red-text">TARGET:</span>
+            One unit from your army that is in RESERVES.
+            <span class="red-text">RESTRICTION:</span>
+            You cannot use this Stratagem to enable a unit to arrive on the battlefield during a battle round it would
+            not normally be able to do so in
+            <span class="red-text">EFFECT:</span>
+            Your unit can arrive on the battlefield as if it were the Reinforcements step of your Movement phase.
+        </content>
+    </square>
+
+    <!-- Fire Overwatch -->
+    <square value="1">
+        <title>Fire Overwatch</title>
+        <content>
+            <span class="red-text">Cost:</span>
+            1CP
+            <span class="red-text">Faction:</span>
+            Core
+            <span class="red-text">Detachment:</span>
+            null
+            <span class="red-text">WHEN:</span>
+            Your opponent’s MOVEMENT or CHARGE phase, just after an enemy unit is set up or when an enemy unit starts or
+            ends a Normal, Advance, Fall Back or Charge move.
+            <span class="red-text">TARGET:</span>
+            One unit from your army that is within 24" of that enemy unit and that would be eligible to shoot if it were
+            your SHOOTING phase.
+            <span class="red-text">RESTRICTION:</span>
+            Until the end of the phase, each time a model in your unit makes a ranged attack, an unmodified Hit roll of
+            6 is required to score a hit, irrespective of the attacking weapon’s Ballistic Skill or any modifiers. You
+            can only use this Stratagem once per turn.
+            <span class="red-text">EFFECT:</span>
+            Your unit can shoot that enemy unit as if it were your Shooting phase.
+        </content>
+    </square>
+
+    <!-- Go to ground -->
+    <square value="1">
+        <title>Go to ground</title>
+        <content>
+            <span class="red-text">Cost:</span>
+            1CP
+            <span class="red-text">Faction:</span>
+            Core
+            <span class="red-text">Detachment:</span>
+            null
+            <span class="red-text">WHEN:</span>
+            Your opponent’s SHOOTING phase, just after an enemy unit has selected its targets.
+            <span class="red-text">TARGET:</span>
+            One INFANTRY unit from your army that was selected as the target of one or more of the attacking unit’s
+            attacks.
+            <span class="red-text">RESTRICTION:</span>
+            none
+            <span class="red-text">EFFECT:</span>
+            Until the end of the phase, all models in your unit have a 6+ invulnerable save and have the Benefit of
+            Cover.
+        </content>
+    </square>
+
+    <!-- Smokescreen -->
+    <square value="1">
+        <title>Smokescreen</title>
+        <content>
+            <span class="red-text">Cost:</span>
+            1CP
+            <span class="red-text">Faction:</span>
+            Core
+            <span class="red-text">Detachment:</span>
+            null
+            <span class="red-text">WHEN:</span>
+            Your opponent’s SHOOTING phase, just after an enemy unit has selected its targets.
+            <span class="red-text">TARGET:</span>
+            One Smoke unit from your army that was selected as the target of one or more of the attacking unit’s
+            attacks.
+            <span class="red-text">RESTRICTION:</span>
+            none
+            <span class="red-text">EFFECT:</span>
+            Until the end of the phase, all models in your unit have the Benefit of Cover and the Stealth ability.
+        </content>
+    </square>
+
+    <!-- Smokescreen -->
+    <square value="1">
+        <title>Heroic Intervention</title>
+        <content>
+            <span class="red-text">Cost:</span>
+            1CP
+            <span class="red-text">Faction:</span>
+            Core
+            <span class="red-text">Detachment:</span>
+            null
+            <span class="red-text">WHEN:</span>
+            Your opponent’s CHARGE phase, just after an enemy unit ends a Charge move.
+            <span class="red-text">TARGET:</span>
+            One unit from your army that is within 6" of that enemy unit and would be eligible to declare a charge
+            against that enemy unit if it were your Charge phase.
+            <span class="red-text">RESTRICTION:</span>
+            You can only select a VEHICLE unit from your army if it is a Walker. Note that even if this charge is
+            successful, your unit does not receive any Charge bonus this turn.
+            <span class="red-text">EFFECT:</span>
+            Your unit now declares a charge that targets only that enemy unit, and you resolve that charge as if it were
+            your Charge phase.
         </content>
     </square>
 
 </stratagems>
-        <!-- Coordinated Trap -->
-        <!-- <square value="2">
-          <title>Coordinated Trap</title>
-          <cost>2</cost>
-          <faction>Genestealer Cults</faction>
-          <detachment>Ascension Day</detachment>
-          <timing>The start of your SHOOTING PHASE or the start of the FIGHT PHASE.</timing>
-          <target>Two GENESTEALER CULTS units from your army that have not been selected to shoot or fight this phase, and one enemy unit.</target>
-          <restriction>none</restriction>
-          <effect>Until the end of the phase, each time a model in either of your units makes an attack, it can only target that enemy unit (and only if it is an eligible target for that attack), and when resolving that attack, add 1 to the Wound roll.</effect>
-        </square>
-        <!-- Tunnel Crawlers -->
-        <!--<square value="1">
-          <title>Tunnel Crawlers</title>
-          <cost>1</cost>
-          <faction>Genestealer Cults</faction>
-          <detachment>Ascension Day</detachment>
-          <timing>Your MOVEMENT PHASE.</timing>
-          <target>One GENESTEALER CULTS unit from your army that is arriving using the DEEP STRIKE ability this phase.</target>
-          <restriction>A unit targeted by this stratagem is not eligible to declare a charge in the same turn.</restriction>
-          <effect>Your unit can be set up anywhere on the battlefield that is more than 3 horizontally away from all enemy models.</effect>
-        </square>
-        <!-- One With The Darkness -->
-        <!-- <square value="1">
-          <title>One With The Darkness</title>
-          <cost>1</cost>
-          <faction>Genestealer Cults</faction>
-          <detachment>Ascension Day</detachment>
-          <timing>Your opponent’s SHOOTING PHASE, just after an enemy unit has selected its targets.</timing>
-          <target>One GENESTEALER CULTS INFANTRY unit from your army that was selected as the target of one or more of that enemy unit's attacks.</target>
-          <restriction>none</restriction>
-          <effect>Until the end of the phase, your unit has the STEALTH ability and can only be selected as the target of a ranged attack if the attacking model is within 12 inches.</effect>
-        </square>
-        <!-- A Perfect Ambush -->
-        <!-- <square value="1">
-          <title>A Perfect Ambush</title>
-          <cost>1</cost>
-          <faction>Genestealer Cults</faction>
-          <detachment>Ascension Day</detachment>
-          <timing>Your SHOOTING PHASE.</timing>
-          <target>One GENESTEALER CULTS unit from your army that arrived from RESERVES this turn and has not been selected to shoot this phase.</target>
-          <restriction>none</restriction>
-          <effect>Until the end of the phase, improve the BS and AP characteristics of ranged weapons equipped by models in your unit by 1.</effect>
-        </square>
-        <!-- Return To The Shadows -->
-        <!-- <square value="1">
-          <title>Return To The Shadows</title>
-          <cost>1</cost>
-          <faction>Genestealer Cults</faction>
-          <detachment>Ascension Day</detachment>
-          <timing>End of your opponent's turn.</timing>
-          <target>Up to two GENESTEALER CULTS BATTLELINE units from your army, or one other GENESTEALER CULTS INFANTRY unit from your army.</target>
-          <restriction>The targeted units must have the Deep Strike ability and cannot be within Engagement Range of any enemy units when targeted.</restriction>
-          <effect>Remove the targeted units from the battlefield and place them into strategic reserves.</effect>
-        </square>
-      -->

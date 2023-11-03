@@ -3,26 +3,51 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        /* Your existing styles here */
+        .square {
+            border: 1px solid #000;
+            margin: 10px;
+            padding: 10px;
+            cursor: pointer;
+            background-color: #f7f7f7; /* Light gray background */
+        }
+
+        .square h2 {
+            margin: 0;
+            padding: 0;
+            font-size: 18px;
+        }
+
+        .square p {
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+        }
+
+        .button-container {
+            text-align: center;
+        }
 
         /* Define styles for smaller screens */
         @media (max-width: 768px) {
             .square {
-                /* Adjust styles for squares on smaller screens */
                 width: 100%; /* Full width for squares on smaller screens */
+                border: 1px solid #000; /* Add a border to squares on smaller screens */
+                padding: 5px; /* Reduce padding for squares on smaller screens */
             }
             .square h2 {
-                /* Adjust font size for h2 on smaller screens */
                 font-size: 16px;
             }
             .square p {
-                /* Adjust font size for p on smaller screens */
                 font-size: 12px;
             }
-            .button-container {
-                /* Adjust styles for button containers on smaller screens */
-                text-align: center;
-            }
+        }
+
+        .red-text {
+            color: red;
+        }
+
+        .blue-text {
+            color: blue;
         }
     </style>
     <script>
@@ -61,13 +86,25 @@
                     for (var i = 0; i < squares.length; i++) {
                         var square = squares[i];
                         var title = square.getElementsByTagName("title")[0].textContent;
-                        var content = square.getElementsByTagName("content")[0].textContent;
+                        var content = square.getElementsByTagName("content")[0].innerHTML;
                         var value = parseInt(square.getAttribute("value"));
+
+                        // Replace newline characters ("\n") with HTML line breaks ("<br>")
+                        content = content.replace(/\n/g, "<br>");
 
                         var squareDiv = document.createElement('div');
                         squareDiv.className = 'square';
                         squareDiv.innerHTML = `<h2>${title}</h2><p>${content}</p>`;
                         squareDiv.setAttribute("data-value", value);
+
+                        // Apply CSS styles based on the custom tags
+                        squareDiv.querySelectorAll(".red-text").forEach(element => {
+                            element.style.color = "red";
+                        });
+
+                        squareDiv.querySelectorAll(".blue-text").forEach(element => {
+                            element.style.color = "blue";
+                        });
 
                         var buttonContainer = document.createElement('div');
                         buttonContainer.className = 'button-container';
