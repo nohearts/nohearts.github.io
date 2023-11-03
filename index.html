@@ -1,6 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /* Your existing styles here */
+
+        /* Define styles for smaller screens */
+        @media (max-width: 768px) {
+            .square {
+                /* Adjust styles for squares on smaller screens */
+                width: 100%; /* Full width for squares on smaller screens */
+            }
+            .square h2 {
+                /* Adjust font size for h2 on smaller screens */
+                font-size: 16px;
+            }
+            .square p {
+                /* Adjust font size for p on smaller screens */
+                font-size: 12px;
+            }
+            .button-container {
+                /* Adjust styles for button containers on smaller screens */
+                text-align: center;
+            }
+        }
+    </style>
     <script>
         var xmlFileURL = "stratagems.xml";
         var counter = 0;
@@ -16,12 +40,21 @@
             updateCounter();
         }
 
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", xmlFileURL, true);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                var xmlData = xhr.responseXML;
-                if (xmlData) {
+        // Function to handle decrementing the counter
+        function decrementCounter(value) {
+            if (counter - value >= 0) {
+                counter -= value;
+                updateCounter();
+            }
+        }
+
+        // Function to fetch and parse XML data
+        function fetchData() {
+            fetch(xmlFileURL)
+                .then(response => response.text())
+                .then(data => {
+                    var parser = new DOMParser();
+                    var xmlData = parser.parseFromString(data, "text/xml");
                     var squares = xmlData.getElementsByTagName("square");
                     var squaresContainer = document.getElementById('squares-container');
 
@@ -35,37 +68,39 @@
                         squareDiv.className = 'square';
                         squareDiv.innerHTML = `<h2>${title}</h2><p>${content}</p>`;
                         squareDiv.setAttribute("data-value", value);
-                        squaresContainer.appendChild(squareDiv);
 
-                        squareDiv.addEventListener("click", function() {
-                            var squareValue = parseInt(this.getAttribute("data-value"));
-                            if (counter - squareValue >= 0) {
-                                counter -= squareValue; // Decrement the counter
-                                updateCounter(); // Update the counter display
-                            }
-                        });
+                        var buttonContainer = document.createElement('div');
+                        buttonContainer.className = 'button-container';
+                        var button = document.createElement('button');
+                        button.innerText = "Use";
+                        button.onclick = (function (value) {
+                            return function () {
+                                decrementCounter(value);
+                            };
+                        })(value);
+
+                        buttonContainer.appendChild(button);
+                        squareDiv.appendChild(buttonContainer);
+
+                        squaresContainer.appendChild(squareDiv);
                     }
 
-                    // Initialize the counter display after squares are loaded
                     updateCounter();
-                }
-            }
-        };
-        xhr.send();
-    </script>
-    <style>
-        .square {
-            border: 1px solid #000;
-            margin: 10px;
-            padding: 10px;
-            cursor: pointer;
+                })
+                .catch(error => {
+                    console.error("Error fetching XML data: " + error);
+                });
         }
-    </style>
+
+        fetchData();
+    </script>
 </head>
 <body>
 <div>
-    Counter: <span id="counter">0</span>
-    <button onclick="incrementCounter()">Increment</button>
+    <div style="text-align: center;">
+        Counter: <span id="counter">0</span>
+        <button onclick="incrementCounter()">Increment</button>
+    </div>
 </div>
 <div id="squares-container">
     <!-- Squares will be generated here once data is fetched -->
