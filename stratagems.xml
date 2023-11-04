@@ -12,6 +12,9 @@
             <span class="red-text">DETACHMENT:</span>
             null
 
+            <span class="red-text">TYPE:</span>
+            BATTLE TACTIC
+
             <span class="red-text">WHEN:</span>
             In any phase, just after you have made a HIT ROLL, WOUND ROLL, DAMAGE ROLL, SAVING THROW, ADVANCE
             ROLL, CHARGE ROLL, DESPERATE ESCAPE TEST, HAZARDOUS TEST, or NUMBER OF ATTACKS ROLL
@@ -39,6 +42,9 @@
 
             <span class="red-text">DETACHMENT:</span>
             null
+
+            <span class="red-text">TYPE:</span>
+            STRATEGIC PLOY
 
             <span class="red-text">WHEN:</span>
             FIGHT PHASE, just after an ENEMY UNIT has fought
@@ -68,6 +74,9 @@
             <span class="red-text">DETACHMENT:</span>
             null
 
+            <span class="red-text">TYPE:</span>
+            EPIC DEED
+
             <span class="red-text">WHEN:</span>
             FIGHT PHASE, when a CHARACTER unit from your army that is within Engagement Range of one or more attached
             units is selected to fight.
@@ -95,6 +104,9 @@
 
             <span class="red-text">DETACHMENT:</span>
             null
+
+            <span class="red-text">TYPE:</span>
+            EPIC DEED
 
             <span class="red-text">WHEN:</span>
             BATTLE-SHOCK step of your COMMAND PHASE, just after you have failed a BATTLE-SHOCK TEST taken for a unit
@@ -124,6 +136,9 @@
             <span class="red-text">DETACHMENT:</span>
             null
 
+            <span class="red-text">TYPE:</span>
+            WARGEAR
+
             <span class="red-text">WHEN:</span>
             Your SHOOTING PHASE.
 
@@ -152,6 +167,9 @@
 
             <span class="red-text">DETACHMENT:</span>
             null
+
+            <span class="red-text">TYPE:</span>
+            STRATEGIC PLOY
 
             <span class="red-text">WHEN:</span>
             Your CHARGE PHASE.
@@ -184,6 +202,9 @@
             <span class="red-text">DETACHMENT:</span>
             null
 
+            <span class="red-text">TYPE:</span>
+            STRATEGIC PLOY
+
             <span class="red-text">WHEN:</span>
             End of your opponent’s MOVEMENT phase
 
@@ -211,6 +232,9 @@
 
             <span class="red-text">DETACHMENT:</span>
             null
+
+            <span class="red-text">TYPE:</span>
+            STRATEGIC PLOY
 
             <span class="red-text">WHEN:</span>
             Your opponent’s MOVEMENT or CHARGE phase, just after an enemy unit is set up or when an enemy unit starts or
@@ -243,6 +267,9 @@
             <span class="red-text">DETACHMENT:</span>
             null
 
+            <span class="red-text">TYPE:</span>
+            BATTLE TACTIC
+
             <span class="red-text">WHEN:</span>
             Your opponent’s SHOOTING phase, just after an enemy unit has selected its targets.
 
@@ -272,6 +299,9 @@
             <span class="red-text">DETACHMENT:</span>
             null
 
+            <span class="red-text">TYPE:</span>
+            WARGEAR
+
             <span class="red-text">WHEN:</span>
             Your opponent’s SHOOTING phase, just after an enemy unit has selected its targets.
 
@@ -300,6 +330,9 @@
             <span class="red-text">DETACHMENT:</span>
             null
 
+            <span class="red-text">TYPE:</span>
+            STRATEGIC PLOY
+
             <span class="red-text">WHEN:</span>
             Your opponent’s CHARGE phase, just after an enemy unit ends a Charge move.
 
@@ -314,6 +347,197 @@
             <span class="red-text">EFFECT:</span>
             Your unit now declares a charge that targets only that enemy unit, and you resolve that charge as if it were
             your Charge phase.
+        </content>
+    </square>
+
+    <!-- A deadly prize -->
+    <square value="1">
+        <title>Strike from the Shadows</title>
+        <content>
+            <span class="blue-text">COST:</span>
+            1CP
+
+            <span class="blue-text">FACTION:</span>
+            Space Marines
+
+            <span class="blue-text">DETACHMENT:</span>
+            Vanguard Spearhead
+
+            <span class="blue-text">TYPE:</span>
+            WARGEAR
+
+            <span class="blue-text">WHEN:</span>
+            Start of the Command phase.
+
+            <span class="blue-text">TARGET:</span>
+            One ADEPTUS ASTARTES INFANTRY or ADEPTUS ASTARTES MOUNTED unit from your army within range of an objective
+            marker you control.
+
+            <span class="blue-text">RESTRICTION:</span>
+            none
+
+            <span class="blue-text">EFFECT:</span>
+            That objective marker is said to be SABOTAGED, and remains under your control even if you have no models
+            within range of it, until your opponent controls it at the START or END of any turn. While an objective
+            marker is Sabotaged and under your control, each time an enemy unit ends a Normal, Advance, Fall Back or
+            Charge move within range of that objective marker, roll one D6: on a 2+, that enemy unit suffers D3 mortal
+            wounds.
+        </content>
+    </square>
+
+    <!-- Strike from the Shadows -->
+    <square value="1">
+        <title>Strike from the Shadows</title>
+        <content>
+            <span class="blue-text">COST:</span>
+            1CP
+
+            <span class="blue-text">FACTION:</span>
+            Space Marines
+
+            <span class="blue-text">DETACHMENT:</span>
+            Vanguard Spearhead
+
+            <span class="blue-text">TYPE:</span>
+            BATTLE TACTIC
+
+            <span class="blue-text">WHEN:</span>
+            Your SHOOTING phase.
+
+            <span class="blue-text">TARGET:</span>
+            One ADEPTUS ASTARTES INFANTRY unit from your army that has not been selected to shoot this phase.
+
+            <span class="blue-text">RESTRICTION:</span>
+            none
+
+            <span class="blue-text">EFFECT:</span>
+            Until the end of the phase, each time a model in your unit makes a ranged attack that targets an enemy unit
+            that is more than 12" away, improve the BS and AP of that
+            attack by 1. If one or more enemy models are destroyed as a result of those attacks, select one of those
+            destroyed models; that destroyed model’s unit must take a Battle-shock test.
+        </content>
+    </square>
+
+    <!-- Armor of Contempt -->
+    <square value="1">
+        <title>Armor of Contempt</title>
+        <content>
+            <span class="blue-text">COST:</span>
+            1CP
+
+            <span class="blue-text">FACTION:</span>
+            Space Marines
+
+            <span class="blue-text">DETACHMENT:</span>
+            Vanguard Spearhead
+
+            <span class="blue-text">TYPE:</span>
+            BATTLE TACTIC
+
+            <span class="blue-text">WHEN:</span>
+            Your opponent’s SHOOTING phase or the FIGHT phase, just after an enemy unit has selected its targets.
+
+            <span class="blue-text">TARGET:</span>
+            One ADEPTUS ASTARTES unit from your army that was selected as the target of one or more of the attacking
+            unit’s attacks.
+
+            <span class="blue-text">RESTRICTION:</span>
+            none
+
+            <span class="blue-text">EFFECT:</span>
+            Until the end of the phase, each time an attack targets your unit, worsen the Armour Penetration
+            characteristic of that attack by 1.
+        </content>
+    </square>
+
+    <!-- Surgical Strikes -->
+    <square value="2">
+        <title>Surgical Strikes</title>
+        <content>
+            <span class="blue-text">COST:</span>
+            2CP
+
+            <span class="blue-text">FACTION:</span>
+            Space Marines
+
+            <span class="blue-text">DETACHMENT:</span>
+            Vanguard Spearhead
+
+            <span class="blue-text">TYPE:</span>
+            BATTLE TACTIC
+
+            <span class="blue-text">WHEN:</span>
+            Any FIGHT phase
+
+            <span class="blue-text">TARGET:</span>
+            One ADEPTUS ASTARTES INFANTRY unit from your army that has not been selected to fight this phase.
+
+            <span class="blue-text">RESTRICTION:</span>
+            none
+
+            <span class="blue-text">EFFECT:</span>
+            Until the end of the phase, melee weapons equipped by models in your unit have the PRECISION ability.
+        </content>
+    </square>
+
+    <!-- Calculated Feint -->
+    <square value="1">
+        <title>Calculated Feint</title>
+        <content>
+            <span class="blue-text">COST:</span>
+            1CP
+
+            <span class="blue-text">FACTION:</span>
+            Space Marines
+
+            <span class="blue-text">DETACHMENT:</span>
+            Vanguard Spearhead
+
+            <span class="blue-text">TYPE:</span>
+            STRATEGIC PLOY
+
+            <span class="blue-text">WHEN:</span>
+            Your opponent’s CHARGE phase, just after an enemy unit declares a charge.
+
+            <span class="blue-text">TARGET:</span>
+            One ADEPTUS ASTARTES INFANTRY unit from your army that was selected as a target of that charge.
+
+            <span class="blue-text">RESTRICTION:</span>
+            You cannot select a unit that is within ENGAGEMENT RANGE of one or more enemy units.
+
+            <span class="blue-text">EFFECT:</span>
+            Your unit can make a Normal move of up to D6", or up to 6" instead if it is a PHOBOS or SCOUT SQUAD unit.
+        </content>
+    </square>
+
+    <!-- Guerrilla Tactics -->
+    <square value="1">
+        <title>Guerrilla Tactics</title>
+        <content>
+            <span class="blue-text">COST:</span>
+            1CP
+
+            <span class="blue-text">FACTION:</span>
+            Space Marines
+
+            <span class="blue-text">DETACHMENT:</span>
+            Vanguard Spearhead
+
+            <span class="blue-text">TYPE:</span>
+            STRATEGIC PLOY
+
+            <span class="blue-text">WHEN:</span>
+            End of your opponent’s FIGHT phase.
+
+            <span class="blue-text">TARGET:</span>
+            Up to two PHOBOS and/or SCOUT SQUAD units from your army, or one other ADEPTUS ASTARTES INFANTRY unit from
+            your army.
+
+            <span class="blue-text">RESTRICTION:</span>
+            Each unit selected for this Stratagem must be more than 3" away from all enemy models.
+
+            <span class="blue-text">EFFECT:</span>
+            Remove those units from the battlefield and place them into STRATEGIC RESERVES.
         </content>
     </square>
 
