@@ -28,6 +28,12 @@ node tools/update-wahapedia-data.mjs
 
 The generated data includes Wahapedia attribution in the app UI.
 
+## Legal / Attribution
+
+This is an unofficial fan-made tool and is not affiliated with, endorsed by, or sponsored by Games Workshop.
+
+Warhammer 40,000, faction names, rules text, and related marks belong to Games Workshop. Stratagem data is generated from the Wahapedia public data export and is attributed in the app UI. If you are the rights holder and want data removed or changed, please open an issue or contact the repository owner.
+
 ## Local Use
 
 Because the app fetches local JSON/XML data, serve the folder with a small static server instead of opening `index.html` directly.
