@@ -1,151 +1,930 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#111827">
+    <title>Warhammer Stratagems</title>
     <style>
-        .square {
-            border: 1px solid #000;
-            margin: 10px;
-            padding: 10px;
-            cursor: pointer;
-            background-color: #f7f7f7; /* Light gray background */
+        :root {
+            color-scheme: light;
+            --bg: #f4f5f7;
+            --panel: #ffffff;
+            --panel-soft: #f8fafc;
+            --ink: #141922;
+            --muted: #657083;
+            --line: #d8dee8;
+            --accent: #246bfe;
+            --accent-dark: #174fc1;
+            --good: #14835d;
+            --warn: #b42318;
+            --core: #b42318;
+            --detachment: #1f5fbf;
+            --shadow: 0 14px 40px rgba(17, 24, 39, 0.12);
         }
 
-        .square h2 {
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            min-height: 100%;
+            background: var(--bg);
+        }
+
+        body {
+            min-height: 100%;
             margin: 0;
-            padding: 0;
-            font-size: 18px;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            color: var(--ink);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(244, 245, 247, 0.98) 360px),
+                var(--bg);
         }
 
-        .square p {
-            margin: 0;
-            padding: 0;
-            font-size: 14px;
-        }
-
-        .button-container {
-            text-align: center;
-        }
-
-        /* Define styles for smaller screens */
-        @media (max-width: 768px) {
-            .square {
-                width: 100%; /* Full width for squares on smaller screens */
-                border: 1px solid #000; /* Add a border to squares on smaller screens */
-                padding: 5px; /* Reduce padding for squares on smaller screens */
-            }
-            .square h2 {
-                font-size: 16px;
-            }
-            .square p {
-                font-size: 12px;
-            }
-        }
-
-        .red-text {
-            color: red;
-        }
-
-        .blue-text {
-            color: blue;
+        button,
+        input,
+        select {
+            font: inherit;
         }
 
         button {
-            font-size: 18px;
-            padding: 5px 10px; /* Adjust padding to make the button larger */
-        }
-    </style>
-    <script>
-        var xmlFileURL = "stratagems.xml";
-        var counter = 0;
-
-        // Function to update the counter and display it
-        function updateCounter() {
-            document.getElementById('counter').innerHTML = counter;
+            border: 0;
+            cursor: pointer;
         }
 
-        // Function to handle incrementing the counter
-        function incrementCounter() {
-            counter++;
-            updateCounter();
+        button:disabled {
+            cursor: not-allowed;
+            opacity: 0.45;
         }
 
-        // Function to handle decrementing the counter
-        function decrementCounter(value) {
-            if (counter - value >= 0) {
-                counter -= value;
-                updateCounter();
+        .app-shell {
+            width: min(1180px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 24px 0 40px;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 16px;
+            align-items: center;
+            padding: 14px 0;
+            backdrop-filter: blur(18px);
+        }
+
+        .brand {
+            display: flex;
+            min-width: 0;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .brand h1 {
+            margin: 0;
+            font-size: 3rem;
+            line-height: 0.95;
+            letter-spacing: 0;
+        }
+
+        .brand p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.98rem;
+        }
+
+        .cp-panel {
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 10px 14px;
+            align-items: center;
+            padding: 12px;
+            border: 1px solid rgba(216, 222, 232, 0.82);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.92);
+            box-shadow: var(--shadow);
+        }
+
+        .cp-readout {
+            display: grid;
+            min-width: 92px;
+            justify-items: center;
+            padding: 8px 14px;
+            border-radius: 7px;
+            background: #111827;
+            color: #ffffff;
+        }
+
+        .cp-readout span:first-child {
+            color: #b9c2d0;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .cp-value {
+            font-size: 2rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .cp-actions {
+            display: grid;
+            grid-template-columns: repeat(3, 42px);
+            gap: 8px;
+        }
+
+        .icon-button,
+        .secondary-button,
+        .primary-button {
+            min-height: 42px;
+            border-radius: 7px;
+            font-weight: 800;
+        }
+
+        .icon-button {
+            background: #e9eef6;
+            color: #172033;
+            font-size: 1.1rem;
+        }
+
+        .icon-button:hover,
+        .secondary-button:hover {
+            background: #dfe7f3;
+        }
+
+        .primary-button {
+            padding: 0 14px;
+            background: var(--accent);
+            color: #ffffff;
+        }
+
+        .primary-button:hover {
+            background: var(--accent-dark);
+        }
+
+        .secondary-button {
+            padding: 0 12px;
+            background: #edf1f7;
+            color: #1e293b;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: minmax(220px, 1fr) 170px 190px;
+            gap: 12px;
+            margin: 20px 0 14px;
+            padding: 14px;
+            border: 1px solid rgba(216, 222, 232, 0.9);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: var(--shadow);
+        }
+
+        .field {
+            display: grid;
+            gap: 6px;
+        }
+
+        .field label,
+        .toggle-filter {
+            color: var(--muted);
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .input,
+        .select {
+            width: 100%;
+            min-height: 44px;
+            border: 1px solid var(--line);
+            border-radius: 7px;
+            background: #ffffff;
+            color: var(--ink);
+            padding: 0 12px;
+        }
+
+        .input:focus,
+        .select:focus {
+            outline: 3px solid rgba(36, 107, 254, 0.18);
+            border-color: var(--accent);
+        }
+
+        .toggle-filter {
+            display: flex;
+            min-height: 44px;
+            align-items: center;
+            gap: 9px;
+            align-self: end;
+            padding: 0 12px;
+            border: 1px solid var(--line);
+            border-radius: 7px;
+            background: #ffffff;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .toggle-filter input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent);
+        }
+
+        .phase-strip {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 4px 0 14px;
+            scrollbar-width: thin;
+        }
+
+        .phase-button {
+            flex: 0 0 auto;
+            min-height: 38px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #263244;
+            padding: 0 13px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .phase-button[aria-pressed="true"] {
+            border-color: var(--accent);
+            background: #dfe9ff;
+            color: #143f93;
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: center;
+            margin: 4px 0 12px;
+            color: var(--muted);
+            font-weight: 700;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .card {
+            display: grid;
+            gap: 12px;
+            align-content: start;
+            border: 1px solid rgba(216, 222, 232, 0.95);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.96);
+            padding: 15px;
+            box-shadow: 0 8px 28px rgba(17, 24, 39, 0.08);
+        }
+
+        .card.unaffordable {
+            background: rgba(255, 255, 255, 0.78);
+        }
+
+        .card-header {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 10px;
+            align-items: start;
+        }
+
+        .card h2 {
+            margin: 0;
+            font-size: 1.18rem;
+            line-height: 1.16;
+            letter-spacing: 0;
+        }
+
+        .cost-badge {
+            display: inline-grid;
+            min-width: 54px;
+            min-height: 54px;
+            place-items: center;
+            border-radius: 8px;
+            background: #111827;
+            color: #ffffff;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .cost-badge small {
+            display: block;
+            color: #b9c2d0;
+            font-size: 0.66rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+
+        .badge {
+            display: inline-flex;
+            min-height: 26px;
+            align-items: center;
+            border-radius: 999px;
+            background: #eef2f7;
+            color: #2f3b4f;
+            padding: 0 9px;
+            font-size: 0.76rem;
+            font-weight: 850;
+        }
+
+        .badge.core {
+            background: #fde7e5;
+            color: var(--core);
+        }
+
+        .badge.detachment {
+            background: #e3efff;
+            color: var(--detachment);
+        }
+
+        .details {
+            display: grid;
+            gap: 8px;
+            margin: 0;
+        }
+
+        .detail-row {
+            display: grid;
+            grid-template-columns: 104px minmax(0, 1fr);
+            gap: 10px;
+            padding-top: 8px;
+            border-top: 1px solid #edf1f6;
+        }
+
+        .detail-row:first-child {
+            border-top: 0;
+            padding-top: 0;
+        }
+
+        .detail-row dt {
+            color: var(--muted);
+            font-size: 0.73rem;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .detail-row dd {
+            margin: 0;
+            color: #1f2937;
+            line-height: 1.42;
+        }
+
+        .card-actions {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 8px;
+            align-items: center;
+            padding-top: 2px;
+        }
+
+        .used-count {
+            color: var(--muted);
+            font-size: 0.86rem;
+            font-weight: 700;
+        }
+
+        .empty-state,
+        .error-state {
+            padding: 28px;
+            border: 1px dashed var(--line);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--muted);
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .error-state {
+            color: var(--warn);
+        }
+
+        @media (max-width: 900px) {
+            .topbar {
+                position: static;
+                grid-template-columns: 1fr;
+            }
+
+            .cp-panel {
+                grid-template-columns: minmax(0, 1fr) auto;
+            }
+
+            .controls {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .toggle-filter {
+                grid-column: 1 / -1;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
             }
         }
 
-        // Function to fetch and parse XML data
-        function fetchData() {
-            fetch(xmlFileURL)
-                .then(response => response.text())
-                .then(data => {
-                    var parser = new DOMParser();
-                    var xmlData = parser.parseFromString(data, "text/xml");
-                    var squares = xmlData.getElementsByTagName("square");
-                    var squaresContainer = document.getElementById('squares-container');
+        @media (max-width: 560px) {
+            .app-shell {
+                width: min(100% - 20px, 1180px);
+                padding-top: 12px;
+            }
 
-                    for (var i = 0; i < squares.length; i++) {
-                        var square = squares[i];
-                        var title = square.getElementsByTagName("title")[0].textContent;
-                        var content = square.getElementsByTagName("content")[0].innerHTML;
-                        var value = parseInt(square.getAttribute("value"));
+            .brand h1 {
+                font-size: 2rem;
+                line-height: 1;
+            }
 
-                        // Replace newline characters ("\n") with HTML line breaks ("<br>")
-                        content = content.replace(/\n/g, "<br>");
+            .brand p {
+                font-size: 0.9rem;
+            }
 
-                        var squareDiv = document.createElement('div');
-                        squareDiv.className = 'square';
-                        squareDiv.innerHTML = `<h2>${title}</h2><p>${content}</p>`;
-                        squareDiv.setAttribute("data-value", value);
+            .cp-panel,
+            .controls {
+                grid-template-columns: 1fr;
+            }
 
-                        // Apply CSS styles based on the custom tags
-                        squareDiv.querySelectorAll(".red-text").forEach(element => {
-                            element.style.color = "red";
-                        });
+            .cp-actions {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
 
-                        squareDiv.querySelectorAll(".blue-text").forEach(element => {
-                            element.style.color = "blue";
-                        });
+            .controls {
+                gap: 10px;
+                margin-top: 14px;
+            }
 
-                        var buttonContainer = document.createElement('div');
-                        buttonContainer.className = 'button-container';
-                        var button = document.createElement('button');
-                        button.innerText = "Use";
-                        button.onclick = (function (value) {
-                            return function () {
-                                decrementCounter(value);
-                            };
-                        })(value);
+            .card {
+                padding: 13px;
+            }
 
-                        buttonContainer.appendChild(button);
-                        squareDiv.appendChild(buttonContainer);
+            .card-header {
+                grid-template-columns: 1fr;
+            }
 
-                        squaresContainer.appendChild(squareDiv);
-                    }
+            .cost-badge {
+                min-width: 100%;
+                min-height: 42px;
+                grid-auto-flow: column;
+                gap: 6px;
+            }
 
-                    updateCounter();
-                })
-                .catch(error => {
-                    console.error("Error fetching XML data: " + error);
-                });
+            .detail-row {
+                grid-template-columns: 1fr;
+                gap: 3px;
+            }
+
+            .card-actions {
+                grid-template-columns: 1fr;
+            }
         }
-
-        fetchData();
-    </script>
+    </style>
 </head>
 <body>
-<div>
-    <div style="text-align: center;">
-        Counter: <span id="counter">0</span>
-        <button onclick="incrementCounter()">Increment</button>
-    </div>
-</div>
-<div id="squares-container">
-    <!-- Squares will be generated here once data is fetched -->
-</div>
+    <main class="app-shell">
+        <header class="topbar">
+            <div class="brand">
+                <h1>Stratagems</h1>
+                <p>Fast CP tracking and quick-reference cards for the tabletop.</p>
+            </div>
+
+            <section class="cp-panel" aria-label="Command point tracker">
+                <div class="cp-readout" aria-live="polite">
+                    <span>CP</span>
+                    <span class="cp-value" id="cpValue">0</span>
+                </div>
+                <div class="cp-actions">
+                    <button class="icon-button" id="decreaseCp" type="button" aria-label="Decrease command points">-</button>
+                    <button class="icon-button" id="increaseCp" type="button" aria-label="Increase command points">+</button>
+                    <button class="icon-button" id="resetCp" type="button" aria-label="Reset command points">0</button>
+                </div>
+            </section>
+        </header>
+
+        <section class="controls" aria-label="Stratagem filters">
+            <div class="field">
+                <label for="searchInput">Search</label>
+                <input class="input" id="searchInput" type="search" placeholder="Name, effect, target, phase">
+            </div>
+            <div class="field">
+                <label for="costFilter">Cost</label>
+                <select class="select" id="costFilter">
+                    <option value="all">All costs</option>
+                    <option value="0">Free</option>
+                    <option value="1">1 CP</option>
+                    <option value="2">2 CP</option>
+                    <option value="3">3+ CP</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="typeFilter">Type</label>
+                <select class="select" id="typeFilter">
+                    <option value="all">All types</option>
+                </select>
+            </div>
+            <label class="toggle-filter" for="availableOnly">
+                <input id="availableOnly" type="checkbox">
+                Show only affordable
+            </label>
+        </section>
+
+        <nav class="phase-strip" aria-label="Phase filters" id="phaseFilters"></nav>
+
+        <div class="status-row">
+            <span id="resultCount">Loading stratagems...</span>
+            <button class="secondary-button" id="clearFilters" type="button">Clear filters</button>
+        </div>
+
+        <section class="cards" id="cards" aria-live="polite"></section>
+    </main>
+
+    <script>
+        const DATA_URL = "stratagems.xml";
+        const STORAGE_KEY = "warhammer-stratagems-state-v2";
+        const FIELD_ORDER = ["when", "target", "restriction", "effect", "detachment"];
+        const PHASES = ["All", "Command", "Movement", "Shooting", "Charge", "Fight", "Any", "Other"];
+
+        const state = {
+            cp: 0,
+            search: "",
+            cost: "all",
+            type: "all",
+            phase: "All",
+            availableOnly: false,
+            used: {}
+        };
+
+        let stratagems = [];
+
+        const elements = {
+            cpValue: document.querySelector("#cpValue"),
+            decreaseCp: document.querySelector("#decreaseCp"),
+            increaseCp: document.querySelector("#increaseCp"),
+            resetCp: document.querySelector("#resetCp"),
+            searchInput: document.querySelector("#searchInput"),
+            costFilter: document.querySelector("#costFilter"),
+            typeFilter: document.querySelector("#typeFilter"),
+            availableOnly: document.querySelector("#availableOnly"),
+            phaseFilters: document.querySelector("#phaseFilters"),
+            resultCount: document.querySelector("#resultCount"),
+            clearFilters: document.querySelector("#clearFilters"),
+            cards: document.querySelector("#cards")
+        };
+
+        function loadState() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+                if (!saved || typeof saved !== "object") return;
+                state.cp = Number.isFinite(saved.cp) ? Math.max(0, saved.cp) : 0;
+                state.used = saved.used && typeof saved.used === "object" ? saved.used : {};
+            } catch (error) {
+                localStorage.removeItem(STORAGE_KEY);
+            }
+        }
+
+        function saveState() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                cp: state.cp,
+                used: state.used
+            }));
+        }
+
+        function normalizeText(value) {
+            return (value || "").replace(/\s+/g, " ").trim();
+        }
+
+        function labelToKey(label) {
+            return normalizeText(label).replace(":", "").toLowerCase();
+        }
+
+        function extractFields(contentElement) {
+            const fragment = document.createElement("div");
+            fragment.innerHTML = contentElement.innerHTML;
+            const fields = {};
+            const labels = Array.from(fragment.querySelectorAll("span"));
+
+            labels.forEach((labelNode) => {
+                const key = labelToKey(labelNode.textContent);
+                const valueParts = [];
+                let cursor = labelNode.nextSibling;
+
+                while (cursor && !(cursor.nodeType === Node.ELEMENT_NODE && cursor.matches("span"))) {
+                    valueParts.push(cursor.textContent || "");
+                    cursor = cursor.nextSibling;
+                }
+
+                fields[key] = normalizeText(valueParts.join(" "));
+            });
+
+            return fields;
+        }
+
+        function detectPhase(whenText) {
+            const text = (whenText || "").toLowerCase();
+            if (text.includes("command phase")) return "Command";
+            if (text.includes("movement phase")) return "Movement";
+            if (text.includes("shooting phase")) return "Shooting";
+            if (text.includes("charge phase")) return "Charge";
+            if (text.includes("fight phase")) return "Fight";
+            if (text.includes("any phase")) return "Any";
+            return "Other";
+        }
+
+        function parseStratagems(xmlText) {
+            const parser = new DOMParser();
+            const xml = parser.parseFromString(xmlText, "application/xml");
+            const parseError = xml.querySelector("parsererror");
+            if (parseError) throw new Error("The stratagem XML could not be parsed.");
+
+            return Array.from(xml.querySelectorAll("square")).map((node, index) => {
+                const title = normalizeText(node.querySelector("title")?.textContent);
+                const contentNode = node.querySelector("content");
+                const fields = contentNode ? extractFields(contentNode) : {};
+                const cost = Number.parseInt(node.getAttribute("value") || fields.cost || "0", 10) || 0;
+                const searchableText = normalizeText([
+                    title,
+                    ...Object.values(fields)
+                ].join(" ")).toLowerCase();
+
+                return {
+                    id: `${title || "stratagem"}-${index}`,
+                    title,
+                    cost,
+                    fields,
+                    type: fields.type || "Unknown",
+                    faction: fields.faction || "Unknown",
+                    phase: detectPhase(fields.when),
+                    searchableText
+                };
+            });
+        }
+
+        function renderPhaseFilters() {
+            elements.phaseFilters.innerHTML = "";
+            PHASES.forEach((phase) => {
+                const button = document.createElement("button");
+                button.className = "phase-button";
+                button.type = "button";
+                button.textContent = phase;
+                button.setAttribute("aria-pressed", String(state.phase === phase));
+                button.addEventListener("click", () => {
+                    state.phase = phase;
+                    render();
+                });
+                elements.phaseFilters.appendChild(button);
+            });
+        }
+
+        function populateTypeFilter() {
+            const types = Array.from(new Set(stratagems.map((item) => item.type))).sort((a, b) => a.localeCompare(b));
+            types.forEach((type) => {
+                const option = document.createElement("option");
+                option.value = type;
+                option.textContent = type;
+                elements.typeFilter.appendChild(option);
+            });
+        }
+
+        function updateCp() {
+            elements.cpValue.textContent = state.cp;
+            elements.decreaseCp.disabled = state.cp === 0;
+            saveState();
+        }
+
+        function matchesCostFilter(item) {
+            if (state.cost === "all") return true;
+            if (state.cost === "3") return item.cost >= 3;
+            return item.cost === Number.parseInt(state.cost, 10);
+        }
+
+        function filteredStratagems() {
+            const query = state.search.trim().toLowerCase();
+            return stratagems.filter((item) => {
+                if (query && !item.searchableText.includes(query)) return false;
+                if (!matchesCostFilter(item)) return false;
+                if (state.type !== "all" && item.type !== state.type) return false;
+                if (state.phase !== "All" && item.phase !== state.phase) return false;
+                if (state.availableOnly && item.cost > state.cp) return false;
+                return true;
+            });
+        }
+
+        function createBadge(text, variant) {
+            const badge = document.createElement("span");
+            badge.className = `badge ${variant || ""}`.trim();
+            badge.textContent = text;
+            return badge;
+        }
+
+        function createCard(item) {
+            const card = document.createElement("article");
+            card.className = `card ${item.cost > state.cp ? "unaffordable" : ""}`.trim();
+
+            const header = document.createElement("div");
+            header.className = "card-header";
+
+            const titleBlock = document.createElement("div");
+            const title = document.createElement("h2");
+            title.textContent = item.title;
+            titleBlock.appendChild(title);
+
+            const badges = document.createElement("div");
+            badges.className = "badges";
+            badges.appendChild(createBadge(item.faction, item.faction.toLowerCase() === "core" ? "core" : "detachment"));
+            badges.appendChild(createBadge(item.type));
+            badges.appendChild(createBadge(item.phase));
+            titleBlock.appendChild(badges);
+
+            const cost = document.createElement("div");
+            cost.className = "cost-badge";
+            cost.innerHTML = `<span>${item.cost}</span><small>CP</small>`;
+
+            header.appendChild(titleBlock);
+            header.appendChild(cost);
+            card.appendChild(header);
+
+            const details = document.createElement("dl");
+            details.className = "details";
+
+            FIELD_ORDER.forEach((key) => {
+                const value = item.fields[key];
+                if (!value || value.toLowerCase() === "null" || value.toLowerCase() === "none") return;
+
+                const row = document.createElement("div");
+                row.className = "detail-row";
+
+                const label = document.createElement("dt");
+                label.textContent = key;
+                const detail = document.createElement("dd");
+                detail.textContent = value;
+
+                row.appendChild(label);
+                row.appendChild(detail);
+                details.appendChild(row);
+            });
+
+            card.appendChild(details);
+
+            const actions = document.createElement("div");
+            actions.className = "card-actions";
+
+            const used = document.createElement("span");
+            used.className = "used-count";
+            const count = Number(state.used[item.id] || 0);
+            used.textContent = count ? `Used ${count} time${count === 1 ? "" : "s"}` : "Not used this game";
+
+            const buttons = document.createElement("div");
+            buttons.className = "badges";
+
+            const refund = document.createElement("button");
+            refund.className = "secondary-button";
+            refund.type = "button";
+            refund.textContent = "Refund";
+            refund.disabled = count === 0;
+            refund.addEventListener("click", () => {
+                state.used[item.id] = Math.max(0, Number(state.used[item.id] || 0) - 1);
+                state.cp += item.cost;
+                updateCp();
+                render();
+            });
+
+            const spend = document.createElement("button");
+            spend.className = "primary-button";
+            spend.type = "button";
+            spend.textContent = "Spend";
+            spend.disabled = item.cost > state.cp;
+            spend.addEventListener("click", () => {
+                if (item.cost > state.cp) return;
+                state.cp -= item.cost;
+                state.used[item.id] = Number(state.used[item.id] || 0) + 1;
+                updateCp();
+                render();
+            });
+
+            buttons.appendChild(refund);
+            buttons.appendChild(spend);
+            actions.appendChild(used);
+            actions.appendChild(buttons);
+            card.appendChild(actions);
+
+            return card;
+        }
+
+        function renderCards(items) {
+            elements.cards.innerHTML = "";
+
+            if (!items.length) {
+                const empty = document.createElement("div");
+                empty.className = "empty-state";
+                empty.textContent = "No stratagems match the current filters.";
+                elements.cards.appendChild(empty);
+                return;
+            }
+
+            const fragment = document.createDocumentFragment();
+            items.forEach((item) => fragment.appendChild(createCard(item)));
+            elements.cards.appendChild(fragment);
+        }
+
+        function render() {
+            updateCp();
+            renderPhaseFilters();
+            const items = filteredStratagems();
+            elements.resultCount.textContent = `${items.length} of ${stratagems.length} stratagems shown`;
+            renderCards(items);
+        }
+
+        function resetFilters() {
+            state.search = "";
+            state.cost = "all";
+            state.type = "all";
+            state.phase = "All";
+            state.availableOnly = false;
+
+            elements.searchInput.value = state.search;
+            elements.costFilter.value = state.cost;
+            elements.typeFilter.value = state.type;
+            elements.availableOnly.checked = state.availableOnly;
+            render();
+        }
+
+        function bindEvents() {
+            elements.increaseCp.addEventListener("click", () => {
+                state.cp += 1;
+                render();
+            });
+
+            elements.decreaseCp.addEventListener("click", () => {
+                state.cp = Math.max(0, state.cp - 1);
+                render();
+            });
+
+            elements.resetCp.addEventListener("click", () => {
+                state.cp = 0;
+                state.used = {};
+                render();
+            });
+
+            elements.searchInput.addEventListener("input", (event) => {
+                state.search = event.target.value;
+                render();
+            });
+
+            elements.costFilter.addEventListener("change", (event) => {
+                state.cost = event.target.value;
+                render();
+            });
+
+            elements.typeFilter.addEventListener("change", (event) => {
+                state.type = event.target.value;
+                render();
+            });
+
+            elements.availableOnly.addEventListener("change", (event) => {
+                state.availableOnly = event.target.checked;
+                render();
+            });
+
+            elements.clearFilters.addEventListener("click", resetFilters);
+        }
+
+        async function init() {
+            loadState();
+            bindEvents();
+
+            try {
+                const response = await fetch(DATA_URL);
+                if (!response.ok) throw new Error(`Unable to load ${DATA_URL}.`);
+                stratagems = parseStratagems(await response.text());
+                populateTypeFilter();
+                render();
+            } catch (error) {
+                elements.resultCount.textContent = "Unable to load stratagems";
+                elements.cards.innerHTML = "";
+                const message = document.createElement("div");
+                message.className = "error-state";
+                message.textContent = error.message;
+                elements.cards.appendChild(message);
+            }
+        }
+
+        init();
+    </script>
 </body>
 </html>
