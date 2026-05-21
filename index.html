@@ -297,15 +297,19 @@
             display: grid;
             gap: 12px;
             align-content: start;
-            border: 1px solid rgba(216, 222, 232, 0.95);
+            border: 1px solid hsl(var(--faction-hue, 220) 52% 82%);
             border-radius: 8px;
-            background: rgba(255, 255, 255, 0.96);
+            background:
+                linear-gradient(135deg, hsl(var(--faction-hue, 220) 78% 95%), rgba(255, 255, 255, 0.96) 54%),
+                #ffffff;
             padding: 15px;
             box-shadow: 0 8px 28px rgba(17, 24, 39, 0.08);
         }
 
         .card.unaffordable {
-            background: rgba(255, 255, 255, 0.78);
+            background:
+                linear-gradient(135deg, hsl(var(--faction-hue, 220) 45% 96%), rgba(255, 255, 255, 0.82) 54%),
+                #ffffff;
         }
 
         .card-header {
@@ -369,6 +373,11 @@
         .badge.detachment {
             background: #e3efff;
             color: var(--detachment);
+        }
+
+        .badge.faction {
+            background: hsl(var(--faction-hue, 220) 70% 91%);
+            color: hsl(var(--faction-hue, 220) 46% 30%);
         }
 
         .details {
@@ -790,14 +799,48 @@
             });
         }
 
+        function factionHue(faction) {
+            let hash = 0;
+            const text = faction || "Core";
+            for (let index = 0; index < text.length; index += 1) {
+                hash = (hash * 31 + text.charCodeAt(index)) % 360;
+            }
+            return (hash * 47) % 360;
+        }
+
+        function isCoreStratagem(item) {
+            return item.faction === "Core" || item.detachment === "Core";
+        }
+
+        function availableDetachments() {
+            return Array.from(new Set(stratagems
+                .filter((item) => {
+                    if (state.faction === "all") return true;
+                    return item.faction === state.faction;
+                })
+                .map((item) => item.detachment)
+                .filter((detachment) => detachment && (state.faction === "Core" || detachment !== "Core"))))
+                .sort((a, b) => a.localeCompare(b));
+        }
+
+        function updateDetachmentFilter() {
+            const detachments = availableDetachments();
+            populateSelect(elements.detachmentFilter, detachments, "All detachments");
+
+            if (state.detachment !== "all" && !detachments.includes(state.detachment)) {
+                state.detachment = "all";
+            }
+
+            elements.detachmentFilter.value = state.detachment;
+        }
+
         function populateFilters() {
             const types = Array.from(new Set(stratagems.map((item) => item.type).filter(Boolean))).sort((a, b) => a.localeCompare(b));
             const factions = Array.from(new Set(stratagems.map((item) => item.faction).filter(Boolean))).sort((a, b) => a.localeCompare(b));
-            const detachments = Array.from(new Set(stratagems.map((item) => item.detachment).filter(Boolean))).sort((a, b) => a.localeCompare(b));
 
             populateSelect(elements.typeFilter, types, "All types");
             populateSelect(elements.factionFilter, factions, "All factions");
-            populateSelect(elements.detachmentFilter, detachments, "All detachments");
+            updateDetachmentFilter();
         }
 
         function updateCp() {
@@ -815,11 +858,12 @@
         function filteredStratagems() {
             const query = state.search.trim().toLowerCase();
             return stratagems.filter((item) => {
+                const isCore = isCoreStratagem(item);
                 if (query && !item.searchableText.includes(query)) return false;
                 if (!matchesCostFilter(item)) return false;
                 if (state.type !== "all" && item.type !== state.type) return false;
-                if (state.faction !== "all" && item.faction !== state.faction) return false;
-                if (state.detachment !== "all" && item.detachment !== state.detachment) return false;
+                if (state.faction !== "all" && item.faction !== state.faction && !isCore) return false;
+                if (state.detachment !== "all" && item.detachment !== state.detachment && !isCore) return false;
                 if (state.phase !== "All" && item.phase !== state.phase) return false;
                 if (state.availableOnly && item.cost > state.cp) return false;
                 return true;
@@ -836,6 +880,7 @@
         function createCard(item) {
             const card = document.createElement("article");
             card.className = `card ${item.cost > state.cp ? "unaffordable" : ""}`.trim();
+            card.style.setProperty("--faction-hue", factionHue(item.faction));
 
             const header = document.createElement("div");
             header.className = "card-header";
@@ -847,14 +892,19 @@
 
             const badges = document.createElement("div");
             badges.className = "badges";
-            badges.appendChild(createBadge(item.faction, item.faction.toLowerCase() === "core" ? "core" : "detachment"));
+            badges.appendChild(createBadge(item.faction, item.faction.toLowerCase() === "core" ? "core" : "faction"));
             badges.appendChild(createBadge(item.type));
             badges.appendChild(createBadge(item.phase));
             titleBlock.appendChild(badges);
 
             const cost = document.createElement("div");
             cost.className = "cost-badge";
-            cost.innerHTML = `<span>${item.costText || item.cost}</span><small>CP</small>`;
+            const costValue = document.createElement("span");
+            costValue.textContent = item.costText || item.cost;
+            const costLabel = document.createElement("small");
+            costLabel.textContent = "CP";
+            cost.appendChild(costValue);
+            cost.appendChild(costLabel);
 
             header.appendChild(titleBlock);
             header.appendChild(cost);
@@ -967,7 +1017,7 @@
             elements.costFilter.value = state.cost;
             elements.typeFilter.value = state.type;
             elements.factionFilter.value = state.faction;
-            elements.detachmentFilter.value = state.detachment;
+            updateDetachmentFilter();
             elements.availableOnly.checked = state.availableOnly;
             render();
         }
@@ -1006,6 +1056,8 @@
 
             elements.factionFilter.addEventListener("change", (event) => {
                 state.faction = event.target.value;
+                state.detachment = "all";
+                updateDetachmentFilter();
                 render();
             });
 
