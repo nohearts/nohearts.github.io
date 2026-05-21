@@ -130,7 +130,11 @@ const [factions, stratagemRows, lastUpdateRows] = await Promise.all([
 
 const factionsById = new Map(factions.map((faction) => [faction.id, faction]));
 
-const stratagems = stratagemRows.filter((row) => row.name && (row.cp_cost || row.type)).map((row) => {
+const stratagems = stratagemRows.filter((row) => {
+    if (!row.name || (!row.cp_cost && !row.type)) return false;
+    const type = typeParts(row.type);
+    return type.scope !== "Boarding Actions";
+}).map((row) => {
     const faction = factionsById.get(row.faction_id);
     const description = stripHtml(row.description || "");
     const legend = stripHtml(row.legend || "");
