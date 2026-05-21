@@ -175,7 +175,7 @@
 
         .controls {
             display: grid;
-            grid-template-columns: minmax(220px, 1fr) 170px 190px;
+            grid-template-columns: minmax(220px, 1fr) 170px 190px 220px;
             gap: 12px;
             margin: 20px 0 14px;
             padding: 14px;
@@ -270,6 +270,21 @@
             margin: 4px 0 12px;
             color: var(--muted);
             font-weight: 700;
+        }
+
+        .source-note {
+            color: var(--muted);
+            font-size: 0.82rem;
+        }
+
+        .source-note a {
+            color: var(--accent-dark);
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .source-note a:hover {
+            text-decoration: underline;
         }
 
         .cards {
@@ -538,6 +553,18 @@
                     <option value="all">All types</option>
                 </select>
             </div>
+            <div class="field">
+                <label for="factionFilter">Faction</label>
+                <select class="select" id="factionFilter">
+                    <option value="all">All factions</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="detachmentFilter">Detachment</label>
+                <select class="select" id="detachmentFilter">
+                    <option value="all">All detachments</option>
+                </select>
+            </div>
             <label class="toggle-filter" for="availableOnly">
                 <input id="availableOnly" type="checkbox">
                 Show only affordable
@@ -550,14 +577,16 @@
             <span id="resultCount">Loading stratagems...</span>
             <button class="secondary-button" id="clearFilters" type="button">Clear filters</button>
         </div>
+        <p class="source-note" id="sourceNote"></p>
 
         <section class="cards" id="cards" aria-live="polite"></section>
     </main>
 
     <script>
-        const DATA_URL = "stratagems.xml";
+        const DATA_URL = "data/stratagems.json";
+        const FALLBACK_XML_URL = "stratagems.xml";
         const STORAGE_KEY = "warhammer-stratagems-state-v2";
-        const FIELD_ORDER = ["when", "target", "restriction", "effect", "detachment"];
+        const FIELD_ORDER = ["when", "target", "restriction", "effect", "legend", "detachment"];
         const PHASES = ["All", "Command", "Movement", "Shooting", "Charge", "Fight", "Any", "Other"];
 
         const state = {
@@ -565,12 +594,15 @@
             search: "",
             cost: "all",
             type: "all",
+            faction: "all",
+            detachment: "all",
             phase: "All",
             availableOnly: false,
             used: {}
         };
 
         let stratagems = [];
+        let dataSource = null;
 
         const elements = {
             cpValue: document.querySelector("#cpValue"),
@@ -580,10 +612,13 @@
             searchInput: document.querySelector("#searchInput"),
             costFilter: document.querySelector("#costFilter"),
             typeFilter: document.querySelector("#typeFilter"),
+            factionFilter: document.querySelector("#factionFilter"),
+            detachmentFilter: document.querySelector("#detachmentFilter"),
             availableOnly: document.querySelector("#availableOnly"),
             phaseFilters: document.querySelector("#phaseFilters"),
             resultCount: document.querySelector("#resultCount"),
             clearFilters: document.querySelector("#clearFilters"),
+            sourceNote: document.querySelector("#sourceNote"),
             cards: document.querySelector("#cards")
         };
 
@@ -646,6 +681,45 @@
             return "Other";
         }
 
+        function createSearchableText(item) {
+            return normalizeText([
+                item.title,
+                item.faction,
+                item.detachment,
+                item.type,
+                item.phase,
+                ...Object.values(item.fields || {})
+            ].join(" ")).toLowerCase();
+        }
+
+        function normalizeStratagem(raw, index) {
+            const fields = {
+                when: raw.when || raw.phaseText || raw.phase || "",
+                target: raw.target || "",
+                restriction: raw.restriction || "",
+                effect: raw.effect || raw.description || "",
+                legend: raw.legend || "",
+                detachment: raw.detachment || ""
+            };
+
+            const item = {
+                id: raw.id || `${raw.name || raw.title || "stratagem"}-${index}`,
+                title: normalizeText(raw.name || raw.title),
+                cost: Number.parseInt(raw.cost ?? raw.value ?? "0", 10) || 0,
+                costText: raw.costText || String(raw.cost ?? raw.value ?? "0"),
+                fields,
+                type: raw.type || "Unknown",
+                faction: raw.faction || "Unknown",
+                factionId: raw.factionId || "",
+                detachment: raw.detachment || "",
+                phase: raw.phase || detectPhase(raw.when || raw.phaseText || ""),
+                sourceUrl: raw.sourceUrl || ""
+            };
+
+            item.searchableText = createSearchableText(item);
+            return item;
+        }
+
         function parseStratagems(xmlText) {
             const parser = new DOMParser();
             const xml = parser.parseFromString(xmlText, "application/xml");
@@ -662,17 +736,27 @@
                     ...Object.values(fields)
                 ].join(" ")).toLowerCase();
 
-                return {
+                const item = {
                     id: `${title || "stratagem"}-${index}`,
                     title,
                     cost,
+                    costText: String(cost),
                     fields,
                     type: fields.type || "Unknown",
                     faction: fields.faction || "Unknown",
+                    factionId: "",
+                    detachment: fields.detachment || "",
                     phase: detectPhase(fields.when),
+                    sourceUrl: "",
                     searchableText
                 };
+                return item;
             });
+        }
+
+        function parseDataPayload(payload) {
+            dataSource = payload;
+            return (payload.stratagems || []).map(normalizeStratagem);
         }
 
         function renderPhaseFilters() {
@@ -691,14 +775,29 @@
             });
         }
 
-        function populateTypeFilter() {
-            const types = Array.from(new Set(stratagems.map((item) => item.type))).sort((a, b) => a.localeCompare(b));
-            types.forEach((type) => {
+        function populateSelect(select, values, allLabel) {
+            select.innerHTML = "";
+            const all = document.createElement("option");
+            all.value = "all";
+            all.textContent = allLabel;
+            select.appendChild(all);
+
+            values.forEach((value) => {
                 const option = document.createElement("option");
-                option.value = type;
-                option.textContent = type;
-                elements.typeFilter.appendChild(option);
+                option.value = value;
+                option.textContent = value;
+                select.appendChild(option);
             });
+        }
+
+        function populateFilters() {
+            const types = Array.from(new Set(stratagems.map((item) => item.type).filter(Boolean))).sort((a, b) => a.localeCompare(b));
+            const factions = Array.from(new Set(stratagems.map((item) => item.faction).filter(Boolean))).sort((a, b) => a.localeCompare(b));
+            const detachments = Array.from(new Set(stratagems.map((item) => item.detachment).filter(Boolean))).sort((a, b) => a.localeCompare(b));
+
+            populateSelect(elements.typeFilter, types, "All types");
+            populateSelect(elements.factionFilter, factions, "All factions");
+            populateSelect(elements.detachmentFilter, detachments, "All detachments");
         }
 
         function updateCp() {
@@ -719,6 +818,8 @@
                 if (query && !item.searchableText.includes(query)) return false;
                 if (!matchesCostFilter(item)) return false;
                 if (state.type !== "all" && item.type !== state.type) return false;
+                if (state.faction !== "all" && item.faction !== state.faction) return false;
+                if (state.detachment !== "all" && item.detachment !== state.detachment) return false;
                 if (state.phase !== "All" && item.phase !== state.phase) return false;
                 if (state.availableOnly && item.cost > state.cp) return false;
                 return true;
@@ -753,7 +854,7 @@
 
             const cost = document.createElement("div");
             cost.className = "cost-badge";
-            cost.innerHTML = `<span>${item.cost}</span><small>CP</small>`;
+            cost.innerHTML = `<span>${item.costText || item.cost}</span><small>CP</small>`;
 
             header.appendChild(titleBlock);
             header.appendChild(cost);
@@ -847,6 +948,9 @@
             renderPhaseFilters();
             const items = filteredStratagems();
             elements.resultCount.textContent = `${items.length} of ${stratagems.length} stratagems shown`;
+            elements.sourceNote.innerHTML = dataSource
+                ? `${dataSource.attribution || "Powered by Wahapedia data export"} · generated ${new Date(dataSource.generatedAt).toLocaleDateString()} · <a href="https://www.wahapedia.ru/wh40k10ed/the-rules/data-export/" target="_blank" rel="noreferrer">data export</a>`
+                : "";
             renderCards(items);
         }
 
@@ -854,12 +958,16 @@
             state.search = "";
             state.cost = "all";
             state.type = "all";
+            state.faction = "all";
+            state.detachment = "all";
             state.phase = "All";
             state.availableOnly = false;
 
             elements.searchInput.value = state.search;
             elements.costFilter.value = state.cost;
             elements.typeFilter.value = state.type;
+            elements.factionFilter.value = state.faction;
+            elements.detachmentFilter.value = state.detachment;
             elements.availableOnly.checked = state.availableOnly;
             render();
         }
@@ -896,6 +1004,16 @@
                 render();
             });
 
+            elements.factionFilter.addEventListener("change", (event) => {
+                state.faction = event.target.value;
+                render();
+            });
+
+            elements.detachmentFilter.addEventListener("change", (event) => {
+                state.detachment = event.target.value;
+                render();
+            });
+
             elements.availableOnly.addEventListener("change", (event) => {
                 state.availableOnly = event.target.checked;
                 render();
@@ -911,16 +1029,24 @@
             try {
                 const response = await fetch(DATA_URL);
                 if (!response.ok) throw new Error(`Unable to load ${DATA_URL}.`);
-                stratagems = parseStratagems(await response.text());
-                populateTypeFilter();
+                stratagems = parseDataPayload(await response.json());
+                populateFilters();
                 render();
             } catch (error) {
-                elements.resultCount.textContent = "Unable to load stratagems";
-                elements.cards.innerHTML = "";
-                const message = document.createElement("div");
-                message.className = "error-state";
-                message.textContent = error.message;
-                elements.cards.appendChild(message);
+                try {
+                    const response = await fetch(FALLBACK_XML_URL);
+                    if (!response.ok) throw error;
+                    stratagems = parseStratagems(await response.text());
+                    populateFilters();
+                    render();
+                } catch (fallbackError) {
+                    elements.resultCount.textContent = "Unable to load stratagems";
+                    elements.cards.innerHTML = "";
+                    const message = document.createElement("div");
+                    message.className = "error-state";
+                    message.textContent = fallbackError.message;
+                    elements.cards.appendChild(message);
+                }
             }
         }
 
